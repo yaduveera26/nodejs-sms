@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
 });
 
 
-app.post('/', async(req, res) => {
+app.post('/sendMessage', async(req, res) => {
     try {
         var unirest = require("unirest");
 
@@ -42,6 +42,7 @@ app.post('/', async(req, res) => {
         requ.end(function(res) {
             console.log(res.body);
         });
+        res.sent('OTP sent');
     } catch (err) {
         console.log(err);
     }
