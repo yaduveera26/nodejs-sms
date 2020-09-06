@@ -1,15 +1,11 @@
 const random = require('random');
 const express = require('express');
-const fast2sms = require('fast-two-sms');
-const bodyParser = require('body-parser');
 
 const app = express();
 
-require('dotenv').config();
 
 app.set('view engine', 'ejs');
 
-// app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.urlencoded({ extended: false }));
 
 var otp = random.int(min = 100001, max = 999999);
@@ -21,11 +17,31 @@ app.get('/', (req, res) => {
 });
 
 
-app.post('/sendMessage', async(req, res) => {
+app.post('/', async(req, res) => {
     try {
-        // var number = req.body.number;
-        const response = await fast2sms.sendMessage({ authorization: process.env.API_KEY, message: otp, numbers: [req.body.number] });
-        res.send(response);
+        var unirest = require("unirest");
+
+        var requ = unirest("POST", "https://www.fast2sms.com/dev/bulk");
+
+        requ.headers({
+            "content-type": "application/x-www-form-urlencoded",
+            "cache-control": "no-cache",
+            "authorization": "YOUR_API" //enter your fast2sms api-key
+        });
+
+        requ.form({
+            "sender_id": "FSTSMS",
+            "language": "english",
+            "route": "p", //p-promotional
+            "numbers": req.body.number,
+            "message": `Your OTP is ${otp}`,
+            "variables": "{#AA#}|{#CC#}",
+            "variables_values": "123456787|asdaswdx"
+        });
+
+        requ.end(function(res) {
+            console.log(res.body);
+        });
     } catch (err) {
         console.log(err);
     }
