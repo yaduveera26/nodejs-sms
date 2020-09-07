@@ -8,5 +8,7 @@ npm i ejs
 
 npm i random
 
+npm i unirest
+
 GET YOUR API_KEY FROM (fast2sms.com)
 
