@@ -8,5 +8,5 @@ npm i ejs
 
 npm i random
 
-GET YOUR API_KEY FROM fast2sms.com
+GET YOUR API_KEY FROM (fast2sms.com)
 
